@@ -3,6 +3,7 @@
 <!-- build 20233.23.1017.0948                               -->
 <workbook original-version='18.1' source-build='2023.3.0 (20233.23.1017.0948)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
   <document-format-change-manifest>
+    <_.fcp.AllowCalculationsForDensifiedMarks.true...AllowCalculationsForDensifiedMarks />
     <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
     <_.fcp.MarkAnimation.true...MarkAnimation />
     <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
@@ -37,17 +38,33 @@
           </columns>
         </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
         <_.fcp.ObjectModelEncapsulateLegacy.true...relation type='collection'>
-          <relation connection='excel-direct.1i9egum0jym29a101k02c1piiop2' name='Hospital Visit' table='[&apos;Hospital Visit$&apos;]' type='table'>
-            <columns gridOrigin='A1:H11:no:A1:H11:0' header='yes' outcome='2'>
-              <column datatype='integer' name='Visit ID' ordinal='0' />
-              <column datatype='integer' name='Patient ID' ordinal='1' />
-              <column datatype='date' name='Admit Date' ordinal='2' />
-              <column datatype='string' name='Primary Diagnosis' ordinal='3' />
-              <column datatype='string' name='Admit Type' ordinal='4' />
-              <column datatype='string' name='Location' ordinal='5' />
-              <column datatype='integer' name='Minutes to Service' ordinal='6' />
-              <column datatype='integer' name='Discharge Details ID' ordinal='7' />
-            </columns>
+          <relation join='full' type='join'>
+            <clause type='join'>
+              <expression op='='>
+                <expression op='[Hospital Visit].[Discharge Details ID]' />
+                <expression op='[Discharge Details1].[Discharge Details ID]' />
+              </expression>
+            </clause>
+            <relation connection='excel-direct.1i9egum0jym29a101k02c1piiop2' name='Hospital Visit' table='[&apos;Hospital Visit$&apos;]' type='table'>
+              <columns gridOrigin='A1:H11:no:A1:H11:0' header='yes' outcome='2'>
+                <column datatype='integer' name='Visit ID' ordinal='0' />
+                <column datatype='integer' name='Patient ID' ordinal='1' />
+                <column datatype='date' name='Admit Date' ordinal='2' />
+                <column datatype='string' name='Primary Diagnosis' ordinal='3' />
+                <column datatype='string' name='Admit Type' ordinal='4' />
+                <column datatype='string' name='Location' ordinal='5' />
+                <column datatype='integer' name='Minutes to Service' ordinal='6' />
+                <column datatype='integer' name='Discharge Details ID' ordinal='7' />
+              </columns>
+            </relation>
+            <relation connection='excel-direct.1i9egum0jym29a101k02c1piiop2' name='Discharge Details1' table='[&apos;Discharge Details$&apos;]' type='table'>
+              <columns gridOrigin='A1:D8:no:A1:D8:0' header='yes' outcome='6'>
+                <column datatype='integer' name='Discharge Details ID' ordinal='0' />
+                <column datatype='date' name='Discharge Date' ordinal='1' />
+                <column datatype='string' name='Disposition' ordinal='2' />
+                <column datatype='integer' name='How did patient feel about care? (1-10)' ordinal='3' />
+              </columns>
+            </relation>
           </relation>
           <relation connection='excel-direct.1i9egum0jym29a101k02c1piiop2' name='Discharge Details' table='[&apos;Discharge Details$&apos;]' type='table'>
             <columns gridOrigin='A1:D8:no:A1:D8:0' header='yes' outcome='6'>
@@ -81,11 +98,15 @@
           <map key='[Admit Type]' value='[Hospital Visit].[Admit Type]' />
           <map key='[Age at Most Recent Admit]' value='[Patient].[Age at Most Recent Admit]' />
           <map key='[Birthdate]' value='[Patient].[Birthdate]' />
+          <map key='[Discharge Date (Discharge Details1)]' value='[Discharge Details1].[Discharge Date]' />
           <map key='[Discharge Date]' value='[Discharge Details].[Discharge Date]' />
           <map key='[Discharge Details ID (Discharge Details)]' value='[Discharge Details].[Discharge Details ID]' />
+          <map key='[Discharge Details ID (Discharge Details1)]' value='[Discharge Details1].[Discharge Details ID]' />
           <map key='[Discharge Details ID]' value='[Hospital Visit].[Discharge Details ID]' />
+          <map key='[Disposition (Discharge Details1)]' value='[Discharge Details1].[Disposition]' />
           <map key='[Disposition]' value='[Discharge Details].[Disposition]' />
           <map key='[Doctor Name]' value='[Patient&amp;Doctor Interaction].[Doctor Name]' />
+          <map key='[How did patient feel about care? (1-10) (Discharge Details1)]' value='[Discharge Details1].[How did patient feel about care? (1-10)]' />
           <map key='[How did patient feel about care? (1-10)]' value='[Discharge Details].[How did patient feel about care? (1-10)]' />
           <map key='[Interaction ID]' value='[Patient&amp;Doctor Interaction].[Interaction ID]' />
           <map key='[Location]' value='[Hospital Visit].[Location]' />
@@ -104,20 +125,6 @@
           <metadata-record class='capability'>
             <remote-name />
             <remote-type>0</remote-type>
-            <parent-name>[Patient]</parent-name>
-            <remote-alias />
-            <aggregation>Count</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='integer' name='context'>0</attribute>
-              <attribute datatype='string' name='gridOrigin'>&quot;A1:E11:no:A1:E11:0&quot;</attribute>
-              <attribute datatype='boolean' name='header'>true</attribute>
-              <attribute datatype='integer' name='outcome'>6</attribute>
-            </attributes>
-          </metadata-record>
-          <metadata-record class='capability'>
-            <remote-name />
-            <remote-type>0</remote-type>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias />
             <aggregation>Count</aggregation>
@@ -127,6 +134,20 @@
               <attribute datatype='string' name='gridOrigin'>&quot;A1:H11:no:A1:H11:0&quot;</attribute>
               <attribute datatype='boolean' name='header'>true</attribute>
               <attribute datatype='integer' name='outcome'>2</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[Discharge Details1]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:D8:no:A1:D8:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>6</attribute>
             </attributes>
           </metadata-record>
           <metadata-record class='capability'>
@@ -157,82 +178,19 @@
               <attribute datatype='integer' name='outcome'>6</attribute>
             </attributes>
           </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>Patient ID</remote-name>
-            <remote-type>20</remote-type>
-            <local-name>[Patient ID]</local-name>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
             <parent-name>[Patient]</parent-name>
-            <remote-alias>Patient ID</remote-alias>
-            <ordinal>0</ordinal>
-            <local-type>integer</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
-            </attributes>
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>Name</remote-name>
-            <remote-type>130</remote-type>
-            <local-name>[Name]</local-name>
-            <parent-name>[Patient]</parent-name>
-            <remote-alias>Name</remote-alias>
-            <ordinal>1</ordinal>
-            <local-type>string</local-type>
+            <remote-alias />
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
-            <collation flag='1' name='LEN_RUS_S2' />
             <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:E11:no:A1:E11:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>6</attribute>
             </attributes>
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>Birthdate</remote-name>
-            <remote-type>7</remote-type>
-            <local-name>[Birthdate]</local-name>
-            <parent-name>[Patient]</parent-name>
-            <remote-alias>Birthdate</remote-alias>
-            <ordinal>2</ordinal>
-            <local-type>date</local-type>
-            <aggregation>Year</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
-            </attributes>
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>M or F</remote-name>
-            <remote-type>130</remote-type>
-            <local-name>[M or F]</local-name>
-            <parent-name>[Patient]</parent-name>
-            <remote-alias>M or F</remote-alias>
-            <ordinal>3</ordinal>
-            <local-type>string</local-type>
-            <aggregation>Count</aggregation>
-            <contains-null>true</contains-null>
-            <collation flag='1' name='LEN_RUS_S2' />
-            <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
-            </attributes>
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>Age at Most Recent Admit</remote-name>
-            <remote-type>20</remote-type>
-            <local-name>[Age at Most Recent Admit]</local-name>
-            <parent-name>[Patient]</parent-name>
-            <remote-alias>Age at Most Recent Admit</remote-alias>
-            <ordinal>4</ordinal>
-            <local-type>integer</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
-            </attributes>
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>Visit ID</remote-name>
@@ -240,7 +198,7 @@
             <local-name>[Visit ID]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Visit ID</remote-alias>
-            <ordinal>5</ordinal>
+            <ordinal>0</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -255,7 +213,7 @@
             <local-name>[Patient ID (Hospital Visit)]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Patient ID</remote-alias>
-            <ordinal>6</ordinal>
+            <ordinal>1</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -270,7 +228,7 @@
             <local-name>[Admit Date]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Admit Date</remote-alias>
-            <ordinal>7</ordinal>
+            <ordinal>2</ordinal>
             <local-type>date</local-type>
             <aggregation>Year</aggregation>
             <contains-null>true</contains-null>
@@ -285,7 +243,7 @@
             <local-name>[Primary Diagnosis]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Primary Diagnosis</remote-alias>
-            <ordinal>8</ordinal>
+            <ordinal>3</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -301,7 +259,7 @@
             <local-name>[Admit Type]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Admit Type</remote-alias>
-            <ordinal>9</ordinal>
+            <ordinal>4</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -317,7 +275,7 @@
             <local-name>[Location]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Location</remote-alias>
-            <ordinal>10</ordinal>
+            <ordinal>5</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -333,7 +291,7 @@
             <local-name>[Minutes to Service]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Minutes to Service</remote-alias>
-            <ordinal>11</ordinal>
+            <ordinal>6</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -348,7 +306,68 @@
             <local-name>[Discharge Details ID]</local-name>
             <parent-name>[Hospital Visit]</parent-name>
             <remote-alias>Discharge Details ID</remote-alias>
-            <ordinal>12</ordinal>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Hospital Visit_F351E22610AD46B39A73671EB2AA2148]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Discharge Details ID</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Discharge Details ID (Discharge Details1)]</local-name>
+            <parent-name>[Discharge Details1]</parent-name>
+            <remote-alias>Discharge Details ID</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Hospital Visit_F351E22610AD46B39A73671EB2AA2148]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Discharge Date</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Discharge Date (Discharge Details1)]</local-name>
+            <parent-name>[Discharge Details1]</parent-name>
+            <remote-alias>Discharge Date</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Hospital Visit_F351E22610AD46B39A73671EB2AA2148]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Disposition</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Disposition (Discharge Details1)]</local-name>
+            <parent-name>[Discharge Details1]</parent-name>
+            <remote-alias>Disposition</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Hospital Visit_F351E22610AD46B39A73671EB2AA2148]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>How did patient feel about care? (1-10)</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[How did patient feel about care? (1-10) (Discharge Details1)]</local-name>
+            <parent-name>[Discharge Details1]</parent-name>
+            <remote-alias>How did patient feel about care? (1-10)</remote-alias>
+            <ordinal>11</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -363,7 +382,7 @@
             <local-name>[Discharge Details ID (Discharge Details)]</local-name>
             <parent-name>[Discharge Details]</parent-name>
             <remote-alias>Discharge Details ID</remote-alias>
-            <ordinal>13</ordinal>
+            <ordinal>12</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -378,7 +397,7 @@
             <local-name>[Discharge Date]</local-name>
             <parent-name>[Discharge Details]</parent-name>
             <remote-alias>Discharge Date</remote-alias>
-            <ordinal>14</ordinal>
+            <ordinal>13</ordinal>
             <local-type>date</local-type>
             <aggregation>Year</aggregation>
             <contains-null>true</contains-null>
@@ -393,7 +412,7 @@
             <local-name>[Disposition]</local-name>
             <parent-name>[Discharge Details]</parent-name>
             <remote-alias>Disposition</remote-alias>
-            <ordinal>15</ordinal>
+            <ordinal>14</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -409,7 +428,7 @@
             <local-name>[How did patient feel about care? (1-10)]</local-name>
             <parent-name>[Discharge Details]</parent-name>
             <remote-alias>How did patient feel about care? (1-10)</remote-alias>
-            <ordinal>16</ordinal>
+            <ordinal>15</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -424,7 +443,7 @@
             <local-name>[Interaction ID]</local-name>
             <parent-name>[Patient&amp;Doctor Interaction]</parent-name>
             <remote-alias>Interaction ID</remote-alias>
-            <ordinal>17</ordinal>
+            <ordinal>16</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -439,7 +458,7 @@
             <local-name>[Visit ID (Patient&amp;Doctor Interaction)]</local-name>
             <parent-name>[Patient&amp;Doctor Interaction]</parent-name>
             <remote-alias>Visit ID</remote-alias>
-            <ordinal>18</ordinal>
+            <ordinal>17</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -454,7 +473,7 @@
             <local-name>[Doctor Name]</local-name>
             <parent-name>[Patient&amp;Doctor Interaction]</parent-name>
             <remote-alias>Doctor Name</remote-alias>
-            <ordinal>19</ordinal>
+            <ordinal>18</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -470,7 +489,7 @@
             <local-name>[Notes]</local-name>
             <parent-name>[Patient&amp;Doctor Interaction]</parent-name>
             <remote-alias>Notes</remote-alias>
-            <ordinal>20</ordinal>
+            <ordinal>19</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -486,7 +505,7 @@
             <local-name>[Minutes spent with Patient]</local-name>
             <parent-name>[Patient&amp;Doctor Interaction]</parent-name>
             <remote-alias>Minutes spent with Patient</remote-alias>
-            <ordinal>21</ordinal>
+            <ordinal>20</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -495,9 +514,89 @@
             </attributes>
             <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient&amp;Doctor Interaction_454AE12E28B14D5CBA7FD6A1FD2ACB37]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
           </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Patient ID</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Patient ID]</local-name>
+            <parent-name>[Patient]</parent-name>
+            <remote-alias>Patient ID</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Name</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Name]</local-name>
+            <parent-name>[Patient]</parent-name>
+            <remote-alias>Name</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Birthdate</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Birthdate]</local-name>
+            <parent-name>[Patient]</parent-name>
+            <remote-alias>Birthdate</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>M or F</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[M or F]</local-name>
+            <parent-name>[Patient]</parent-name>
+            <remote-alias>M or F</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Age at Most Recent Admit</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Age at Most Recent Admit]</local-name>
+            <parent-name>[Patient]</parent-name>
+            <remote-alias>Age at Most Recent Admit</remote-alias>
+            <ordinal>25</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Patient_B83F9AB81F6243668FCDB8BA36184F59]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
         </metadata-records>
       </connection>
       <aliases enabled='yes' />
+      <column caption='Docteur+Patient' datatype='real' name='[Calculation_1131247961188491264]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='[Name]+[Patient ID]' />
+      </column>
       <column caption='Duration Hosp' datatype='integer' name='[Calculation_1823676403622535168]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='[Discharge Date]-[Admit Date]' />
       </column>
@@ -517,6 +616,14 @@
       <semantic-values>
         <semantic-value key='[Country].[Name]' value='&quot;Belgium&quot;' />
       </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='Patient ID' />
+        <field-sort-custom-order field='Name' />
+        <field-sort-custom-order field='Calculation_1131247961188491264' />
+        <field-sort-custom-order field='Birthdate' />
+        <field-sort-custom-order field='M or F' />
+        <field-sort-custom-order field='Age at Most Recent Admit' />
+      </field-sort-info>
       <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
         <objects>
           <object caption='Discharge Details' id='Discharge Details_677E638359684F168137F3B306BC207B'>
@@ -533,17 +640,33 @@
           </object>
           <object caption='Hospital Visit' id='Hospital Visit_F351E22610AD46B39A73671EB2AA2148'>
             <properties context=''>
-              <relation connection='excel-direct.1i9egum0jym29a101k02c1piiop2' name='Hospital Visit' table='[&apos;Hospital Visit$&apos;]' type='table'>
-                <columns gridOrigin='A1:H11:no:A1:H11:0' header='yes' outcome='2'>
-                  <column datatype='integer' name='Visit ID' ordinal='0' />
-                  <column datatype='integer' name='Patient ID' ordinal='1' />
-                  <column datatype='date' name='Admit Date' ordinal='2' />
-                  <column datatype='string' name='Primary Diagnosis' ordinal='3' />
-                  <column datatype='string' name='Admit Type' ordinal='4' />
-                  <column datatype='string' name='Location' ordinal='5' />
-                  <column datatype='integer' name='Minutes to Service' ordinal='6' />
-                  <column datatype='integer' name='Discharge Details ID' ordinal='7' />
-                </columns>
+              <relation join='full' type='join'>
+                <clause type='join'>
+                  <expression op='='>
+                    <expression op='[Hospital Visit].[Discharge Details ID]' />
+                    <expression op='[Discharge Details1].[Discharge Details ID]' />
+                  </expression>
+                </clause>
+                <relation connection='excel-direct.1i9egum0jym29a101k02c1piiop2' name='Hospital Visit' table='[&apos;Hospital Visit$&apos;]' type='table'>
+                  <columns gridOrigin='A1:H11:no:A1:H11:0' header='yes' outcome='2'>
+                    <column datatype='integer' name='Visit ID' ordinal='0' />
+                    <column datatype='integer' name='Patient ID' ordinal='1' />
+                    <column datatype='date' name='Admit Date' ordinal='2' />
+                    <column datatype='string' name='Primary Diagnosis' ordinal='3' />
+                    <column datatype='string' name='Admit Type' ordinal='4' />
+                    <column datatype='string' name='Location' ordinal='5' />
+                    <column datatype='integer' name='Minutes to Service' ordinal='6' />
+                    <column datatype='integer' name='Discharge Details ID' ordinal='7' />
+                  </columns>
+                </relation>
+                <relation connection='excel-direct.1i9egum0jym29a101k02c1piiop2' name='Discharge Details1' table='[&apos;Discharge Details$&apos;]' type='table'>
+                  <columns gridOrigin='A1:D8:no:A1:D8:0' header='yes' outcome='6'>
+                    <column datatype='integer' name='Discharge Details ID' ordinal='0' />
+                    <column datatype='date' name='Discharge Date' ordinal='1' />
+                    <column datatype='string' name='Disposition' ordinal='2' />
+                    <column datatype='integer' name='How did patient feel about care? (1-10)' ordinal='3' />
+                  </columns>
+                </relation>
               </relation>
             </properties>
           </object>
@@ -689,6 +812,122 @@
       </table>
       <simple-id uuid='{B24458B1-AF18-47A8-A92D-AE69DAF459FD}' />
     </worksheet>
+    <worksheet name='Sheet 3'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Patient+ (hospital_visits)' name='federated.1ee3s0w0vjrb7q1biyhy21p2tvgs' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ee3s0w0vjrb7q1biyhy21p2tvgs'>
+            <column datatype='date' name='[Admit Date]' role='dimension' type='ordinal' />
+            <column datatype='string' name='[Admit Type]' role='dimension' type='nominal' />
+            <column-instance column='[Admit Date]' derivation='Day' name='[dy:Admit Date:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Admit Date]' derivation='Month' name='[mn:Admit Date:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Admit Type]' derivation='None' name='[none:Admit Type:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Admit Date]' derivation='Quarter' name='[qr:Admit Date:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Admit Date]' derivation='Year' name='[yr:Admit Date:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[yr:Admit Date:ok]'>
+            <groupfilter function='except' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[yr:Admit Date:ok]' />
+              <groupfilter function='member' level='[yr:Admit Date:ok]' member='%null%' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[yr:Admit Date:ok]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='width' field='[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Admit Type:nk]' value='70' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <lod column='[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Admit Type:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='false' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[yr:Admit Date:ok] / ([federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[qr:Admit Date:ok] / ([federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[mn:Admit Date:ok] / [federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[dy:Admit Date:ok])))</rows>
+        <cols>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Admit Type:nk]</cols>
+      </table>
+      <simple-id uuid='{B8DC68F9-4B71-4470-9CED-DF657B0CA0F7}' />
+    </worksheet>
+    <worksheet name='Sheet 4'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Patient+ (hospital_visits)' name='federated.1ee3s0w0vjrb7q1biyhy21p2tvgs' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ee3s0w0vjrb7q1biyhy21p2tvgs'>
+            <column datatype='date' name='[Admit Date]' role='dimension' type='ordinal' />
+            <column datatype='string' name='[Doctor Name]' role='dimension' type='nominal' />
+            <column datatype='string' name='[Name]' role='dimension' type='nominal' />
+            <column datatype='string' name='[Primary Diagnosis]' role='dimension' type='nominal' />
+            <column-instance column='[Doctor Name]' derivation='Count' name='[cnt:Doctor Name:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Name]' derivation='None' name='[none:Name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Primary Diagnosis]' derivation='None' name='[none:Primary Diagnosis:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Admit Date]' derivation='Day-Trunc' name='[tdy:Admit Date:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Primary Diagnosis:nk]'>
+            <groupfilter function='member' level='[none:Primary Diagnosis:nk]' member='%null%' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Primary Diagnosis:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>(([federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Name:nk] / [federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Primary Diagnosis:nk]) * [federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[tdy:Admit Date:qk])</rows>
+        <cols>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[cnt:Doctor Name:qk]</cols>
+      </table>
+      <simple-id uuid='{DA1A671C-A261-4D43-B96A-3AEB99256AB3}' />
+    </worksheet>
+    <worksheet name='Sheet 5'>
+      <table>
+        <view>
+          <datasources />
+          <aggregation value='true' />
+          <_.fcp.AllowCalculationsForDensifiedMarks.true...calcs-on-densified-marks value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{FC1E72EB-7DA4-4BF0-B817-FDBAFE284143}' />
+    </worksheet>
   </worksheets>
   <windows saved-dpi-scale-factor='1.25' source-height='37'>
     <window class='worksheet' name='Sheet 1'>
@@ -722,7 +961,7 @@
       </viewpoint>
       <simple-id uuid='{8B3E6B6B-1176-4010-8F85-CC5D7D9F33F7}' />
     </window>
-    <window class='worksheet' maximized='true' name='Sheet 2'>
+    <window class='worksheet' name='Sheet 2'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -755,6 +994,96 @@
         </highlight>
       </viewpoint>
       <simple-id uuid='{A4638805-F4F9-4916-9425-4C2108E21AB1}' />
+    </window>
+    <window class='worksheet' name='Sheet 3'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Admit Type:nk]</field>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Patient ID (Hospital Visit):ok]</field>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[yr:Admit Date:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{B378A085-0086-48EB-8C2A-13BCDB49EDD7}' />
+    </window>
+    <window class='worksheet' name='Sheet 4'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Doctor Name:nk]</field>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:M or F:nk]</field>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Name:nk]</field>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Patient ID:ok]</field>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[none:Primary Diagnosis:nk]</field>
+            <field>[federated.1ee3s0w0vjrb7q1biyhy21p2tvgs].[yr:Admit Date:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{429305F2-390A-49D8-8485-33BA1B174A96}' />
+    </window>
+    <window class='worksheet' maximized='true' name='Sheet 5'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{1F015EE0-F09D-469A-BB92-02DDA943AF4D}' />
     </window>
   </windows>
   <thumbnails>
@@ -1383,6 +1712,95 @@
       Ab0bg1PLxpeizOaLJEYWaGu8jQNjl/NGncvuCDmt825BRx6aHPfUxyTOsdumUTfpDsfMKBrF
       oo4qh5n6Q7p2G+lNATUKTAL69hWDcJbc0xyvF8HP11ugV/5v7gBD0+zrbRAcQQAAAABJRU5E
       rkJggg==
+    </thumbnail>
+    <thumbnail height='192' name='Sheet 3' width='192'>
+      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
+    </thumbnail>
+    <thumbnail height='192' name='Sheet 5' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAACFUlEQVR4nO3TMQEAIAzAMMC/5yFjRxMFfXpnZg5Eve0A2GQA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQD
+      kGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBp
+      BiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA
+      0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDN
+      AKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxA
+      mgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKR9Y+0F
+      fBUOM1sAAAAASUVORK5CYII=
     </thumbnail>
   </thumbnails>
 </workbook>
